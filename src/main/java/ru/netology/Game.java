@@ -2,25 +2,24 @@ package ru.netology;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class Game {
-    private final List<Player> players = new ArrayList<>();
+    private final Map<String, Player> players = new HashMap<>();
 
     public void register(@NotNull Player player) {
-        if (!players.contains(player)) {
-            players.add(player);
+        if (!players.containsKey(player.getName())) {
+            players.put(player.getName(), player);
         }
     }
 
     public Player getPlayer(@NotNull String name) {
-        int index = players.indexOf(new Player(name, 0));
-        try {
-            return players.get(index);
-        } catch (IndexOutOfBoundsException e) {
+        if (!players.containsKey(name)) {
             throw new NotRegisteredException("The Player \"" + name + "\" is not registered");
         }
+        return players.get(name);
     }
 
     public int getPlayersCount() {
